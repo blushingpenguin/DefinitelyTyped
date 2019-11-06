@@ -4,22 +4,16 @@ import * as ReactDOM from 'react-dom';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import {
     GetString,
-    isReactLocalization,
+    LocalizationProps,
     LocalizationProvider,
     Localized,
-    ReactLocalization,
-    withLocalization,
+    useLocalization,
+    withLocalization
 } from '@fluent/react';
 
 // ReactLocalization examples:
 const bundle = new FluentBundle('en-US');
 bundle.addResource(new FluentResource(`some-message = Hello`));
-const localization = new ReactLocalization([bundle]);
-const helloMessage = localization.getString('some-message');
-const props = {
-    l10n: localization,
-};
-const isPropReactLocalization = isReactLocalization(props, 'l10n');
 
 // Localized examples:
 const Test = () => (
@@ -44,11 +38,10 @@ ReactDOM.render(
 
 // withLocalization examples:
 interface Props {
-    getString: GetString;
     otherProp: number;
     someOtherProp: string;
 }
-function HelloButton(props: Props) {
+function HelloButton(props: Props & LocalizationProps) {
     const { getString } = props;
 
     return <button onClick={() => alert(getString('hello'))}>👋</button>;
@@ -69,3 +62,9 @@ export const Test4 = () => (
     // $ExpectError
     <LocalizedHelloButton otherProp={2} />
 );
+
+// useLocalization examples:
+function HelloHookButton(props: Props & LocalizationProps) {
+    const getString: GetString = useLocalization();
+    return <button onClick={() => alert(getString('hello hooks'))}>👋</button>;
+}

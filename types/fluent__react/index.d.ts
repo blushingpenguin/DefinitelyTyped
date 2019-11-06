@@ -10,29 +10,15 @@ import { FluentBundle } from "@fluent/bundle";
 
 import hoistNonReactStatics = require('hoist-non-react-statics');
 
-export interface ReactLocalizationNotification {
-  relocalize(): void;
-}
-
-export class ReactLocalization {
-  constructor(bundles: Iterable<FluentBundle>);
-  subscribe(component: ReactLocalizationNotification): void;
-  unsubscribe(component: ReactLocalizationNotification): void;
-  setBundles(bundles: Iterable<FluentBundle>): void;
-  getBundle(id: string): FluentBundle | null;
-  getBundle(id: string[]): Array<FluentBundle | null>;
-  getString(id: string, args?: object, fallback?: string): string;
-  reportError(error: string): void;
-}
-
-export function isReactLocalization(props: object, propName: string): Error | null;
-
 export type MarkupParser = (str: string) => Node[];
 
-export interface Context {
-    l10n: ReactLocalization;
+export interface ContextType {
+    getBundle(id: string): FluentBundle
+    getBundle(id: string[]): FluentBundle[]
     parseMarkup: MarkupParser;
 }
+
+export declare const Context: React.Context<ContextType>;
 
 export interface LocalizationProviderProps {
     bundles: Iterable<FluentBundle>;
@@ -97,6 +83,8 @@ export function withLocalization<C extends React.ComponentType<Matching<Localiza
     component: C,
 ): React.ComponentType<Omit<GetProps<C>, keyof Shared<LocalizationProps, GetProps<C>>>> &
     hoistNonReactStatics.NonReactStatics<C>;
+
+export function useLocalization(): GetString;
 
 export interface LocalizedProps {
     id: string;
