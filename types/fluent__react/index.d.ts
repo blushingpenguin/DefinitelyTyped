@@ -12,10 +12,14 @@ import hoistNonReactStatics = require('hoist-non-react-statics');
 
 export type MarkupParser = (str: string) => Node[];
 
+interface GetBundle {
+    (id: string): FluentBundle|null
+    (id: string[]): Array<FluentBundle|null>
+}
+
 export interface ContextType {
-    getBundle(id: string): FluentBundle
-    getBundle(id: string[]): FluentBundle[]
-    parseMarkup: MarkupParser;
+    getBundle: GetBundle | null
+    parseMarkup: MarkupParser | null;
 }
 
 export declare const Context: React.Context<ContextType>;

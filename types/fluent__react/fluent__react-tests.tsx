@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import {
+    Context,
     GetString,
     LocalizationProps,
     LocalizationProvider,
@@ -10,6 +11,28 @@ import {
     useLocalization,
     withLocalization
 } from '@fluent/react';
+
+// Context examples:
+function ContextComponent() {
+    const context = React.useContext(Context);
+    if (context.getBundle) {
+        const fb: FluentBundle | null = context.getBundle("one");
+        if (fb) {
+            console.log(`formatted = ${fb.formatPattern("one")}`);
+        }
+        const fbs = context.getBundle(["one", "two"]);
+        if (fbs[0]) {
+            console.log(`formatted = ${fbs[0].formatPattern("one")}`);
+        }
+        if (fbs[1]) {
+            console.log(`formatted = ${fbs[1].formatPattern("two")}`);
+        }
+    }
+    if (context.parseMarkup) {
+        const result = context.parseMarkup("<div>test</div>");
+        console.log(`nodes = ${result.length}`);
+    }
+}
 
 // ReactLocalization examples:
 const bundle = new FluentBundle('en-US');
