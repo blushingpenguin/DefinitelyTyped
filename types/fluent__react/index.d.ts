@@ -12,21 +12,21 @@ import hoistNonReactStatics = require('hoist-non-react-statics');
 
 export type MarkupParser = (str: string) => Node[];
 
-interface GetBundle {
-    (id: string): FluentBundle|null
-    (id: string[]): Array<FluentBundle|null>
+export interface GetBundle {
+    (id: string): FluentBundle|null;
+    (id: string[]): Array<FluentBundle|null>;
 }
 
 export type GetString = (id: string, args?: object, fallback?: string) => string;
 
 export interface ReactLocalization {
-    getBundle: GetBundle
-    getString: GetString
-    reportError: (error: Error) => void
+    getBundle: GetBundle;
+    getString: GetString;
+    reportError: (error: Error) => void;
 }
 
 export interface ContextType {
-    l10n: ReactLocalization | null
+    l10n: ReactLocalization | null;
     parseMarkup: MarkupParser | null;
 }
 

@@ -15,7 +15,7 @@ import {
 // Context examples:
 function ContextComponent() {
     const context = React.useContext(Context);
-    if (context.l10n {
+    if (context.l10n) {
         const fb: FluentBundle | null = context.l10n.getBundle("one");
         if (fb) {
             console.log(`formatted = ${fb.formatPattern("one")}`);
