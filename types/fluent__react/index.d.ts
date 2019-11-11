@@ -17,12 +17,20 @@ interface GetBundle {
     (id: string[]): Array<FluentBundle|null>
 }
 
+export type GetString = (id: string, args?: object, fallback?: string) => string;
+
+export interface ReactLocalization {
+    getBundle: GetBundle
+    getString: GetString
+    reportError: (error: Error) => void
+}
+
 export interface ContextType {
-    getBundle: GetBundle | null
+    l10n: ReactLocalization | null
     parseMarkup: MarkupParser | null;
 }
 
-export declare const Context: React.Context<ContextType>;
+export const Context: React.Context<ContextType>;
 
 export interface LocalizationProviderProps {
     bundles: Iterable<FluentBundle>;
@@ -70,8 +78,6 @@ export type Shared<InjectedProps, DecorationTargetProps> = {
 
 // Infers prop type from component C
 export type GetProps<C> = C extends React.ComponentType<infer P> ? P : never;
-
-export type GetString = (id: string, args?: object, fallback?: string) => string;
 
 export interface LocalizationProps {
     getString: GetString;

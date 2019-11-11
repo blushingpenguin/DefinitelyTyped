@@ -15,18 +15,20 @@ import {
 // Context examples:
 function ContextComponent() {
     const context = React.useContext(Context);
-    if (context.getBundle) {
-        const fb: FluentBundle | null = context.getBundle("one");
+    if (context.l10n {
+        const fb: FluentBundle | null = context.l10n.getBundle("one");
         if (fb) {
             console.log(`formatted = ${fb.formatPattern("one")}`);
         }
-        const fbs = context.getBundle(["one", "two"]);
+        const fbs = context.l10n.getBundle(["one", "two"]);
         if (fbs[0]) {
             console.log(`formatted = ${fbs[0].formatPattern("one")}`);
         }
         if (fbs[1]) {
             console.log(`formatted = ${fbs[1].formatPattern("two")}`);
         }
+        const argTest = context.l10n.getString("hello", { $arg1: "arg one" }, "default");
+        console.log(`translated with argument = ${argTest}`);
     }
     if (context.parseMarkup) {
         const result = context.parseMarkup("<div>test</div>");
