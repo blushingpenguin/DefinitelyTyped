@@ -21,11 +21,13 @@ function ContextComponent() {
             console.log(`formatted = ${fb.formatPattern("one")}`);
         }
         const fbs = context.l10n.getBundle(["one", "two"]);
-        if (fbs[0]) {
-            console.log(`formatted = ${fbs[0].formatPattern("one")}`);
+        const fbs0 = fbs[0];
+        if (fbs0) { // not fbs[0] - ts < 3.6 can't spot the alias
+            console.log(`formatted = ${fbs0.formatPattern("one")}`);
         }
-        if (fbs[1]) {
-            console.log(`formatted = ${fbs[1].formatPattern("two")}`);
+        const fbs1 = fbs[1];
+        if (fbs1) {
+            console.log(`formatted = ${fbs1.formatPattern("two")}`);
         }
         const argTest = context.l10n.getString("hello", { $arg1: "arg one" }, "default");
         console.log(`translated with argument = ${argTest}`);
